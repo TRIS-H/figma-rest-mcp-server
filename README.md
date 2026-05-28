@@ -98,17 +98,6 @@ pnpm pack --dry-run
 npm publish
 ```
 
-## 设计稿示例
-
-```text
-https://www.figma.com/design/Lxci9PlOEhEnJ7D0EJLm5e/%E8%B6%A3%E6%B0%AA8?node-id=1974-7822&m=dev
-```
-
-解析结果：
-
-- file key: `Lxci9PlOEhEnJ7D0EJLm5e`
-- node id: `1974:7822`
-
 ## 接入流程
 
 见 `./接入流程.md`。
