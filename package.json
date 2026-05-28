@@ -1,6 +1,6 @@
 {
   "name": "figma-rest-mcp-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Local MCP server for reading Figma design data through the Figma REST API.",
   "license": "MIT",
