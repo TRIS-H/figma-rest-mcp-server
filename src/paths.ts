@@ -1,3 +1,4 @@
+import { mkdir, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
@@ -21,6 +22,14 @@ export function getAuthFilePath(options: UserDataPathOptions = {}): string {
 /** 返回 Figma 快照缓存目录路径。 */
 export function getCacheRoot(options: UserDataPathOptions = {}): string {
   return path.join(getDataDir(options), ".figma-cache");
+}
+
+/** 删除并重建 Figma 快照缓存目录，只影响 .figma-cache，不触碰 auth.json。 */
+export async function clearCacheRoot(options: UserDataPathOptions = {}): Promise<string> {
+  const cacheRoot = getCacheRoot(options);
+  await rm(cacheRoot, { recursive: true, force: true });
+  await mkdir(cacheRoot, { recursive: true });
+  return cacheRoot;
 }
 
 /** 汇总 CLI paths 子命令需要展示的所有路径。 */

@@ -3,10 +3,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { createInterface } from "node:readline/promises";
 import { runServer } from "./server.js";
-import { getAuthFilePath, getRuntimePaths } from "./paths.js";
+import { clearCacheRoot, getAuthFilePath, getRuntimePaths } from "./paths.js";
 
 /** CLI 支持的子命令集合。 */
-type Command = "serve" | "auth" | "paths" | "help";
+type Command = "serve" | "auth" | "paths" | "cache:clear" | "help";
 
 main().catch((error) => {
   const message = error instanceof Error ? error.stack ?? error.message : String(error);
@@ -28,6 +28,9 @@ async function main(): Promise<void> {
     case "paths":
       printRuntimePaths();
       return;
+    case "cache:clear":
+      await clearCache();
+      return;
     case "help":
       printHelp();
       return;
@@ -37,7 +40,7 @@ async function main(): Promise<void> {
 /** 将命令行参数收敛为受支持的子命令。 */
 function parseCommand(rawCommand?: string): Command {
   if (!rawCommand) return "serve";
-  if (rawCommand === "serve" || rawCommand === "auth" || rawCommand === "paths") return rawCommand;
+  if (rawCommand === "serve" || rawCommand === "auth" || rawCommand === "paths" || rawCommand === "cache:clear") return rawCommand;
   return "help";
 }
 
@@ -69,12 +72,19 @@ function printRuntimePaths(): void {
   console.log(JSON.stringify(getRuntimePaths(), null, 2));
 }
 
+/** 清空并重建 Figma 快照缓存目录。 */
+async function clearCache(): Promise<void> {
+  const cacheRoot = await clearCacheRoot();
+  console.log(`已清空 Figma 快照缓存：${cacheRoot}`);
+}
+
 /** 输出 CLI 帮助信息。 */
 function printHelp(): void {
   console.log(`Usage:
   figma-rest-mcp serve   启动 stdio MCP Server
   figma-rest-mcp auth    写入或更新 Figma PAT
   figma-rest-mcp paths   查看 auth/cache 路径
+  figma-rest-mcp cache:clear   清空 Figma 快照缓存
 
 无参数默认等同于 figma-rest-mcp serve。`);
 }

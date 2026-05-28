@@ -65,6 +65,12 @@ figma-rest-mcp paths
 
 这样在其他项目里使用 `figma_rest` MCP 时，不会在那个项目下创建或访问 `.figma-cache`。
 
+清空并重建 Figma 快照缓存目录：
+
+```bash
+figma-rest-mcp cache:clear
+```
+
 ## 本地开发
 
 ```bash
@@ -72,6 +78,7 @@ pnpm install
 pnpm build
 pnpm cli auth
 pnpm cli paths
+pnpm cli cache:clear
 pnpm cli serve
 ```
 
