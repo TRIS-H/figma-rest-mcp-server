@@ -1,21 +1,28 @@
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { parseAuthFile, readFigmaPatFromAuthFile } from "../src/auth.js";
+import { getDefaultAuthFilePath, parseAuthFile, readFigmaPatFromAuthFile } from "../src/auth.js";
+import { getAuthFilePath } from "../src/paths.js";
 
 describe("readFigmaPatFromAuthFile", () => {
   it("reads figmaPat from auth.json", async () => {
     const root = await mkdtemp(path.join(tmpdir(), "figma-auth-test-"));
-    await writeFile(path.join(root, "auth.json"), JSON.stringify({ figmaPat: "  figd_test_token  " }), "utf8");
+    const authFile = getAuthFilePath({ homeDir: root });
+    await mkdir(path.dirname(authFile), { recursive: true });
+    await writeFile(authFile, JSON.stringify({ figmaPat: "  figd_test_token  " }), "utf8");
 
-    await expect(readFigmaPatFromAuthFile({ projectRoot: root })).resolves.toBe("figd_test_token");
+    await expect(readFigmaPatFromAuthFile({ homeDir: root })).resolves.toBe("figd_test_token");
   });
 
   it("reports missing auth.json clearly", async () => {
     const root = await mkdtemp(path.join(tmpdir(), "figma-auth-test-"));
 
-    await expect(readFigmaPatFromAuthFile({ projectRoot: root })).rejects.toThrow("无法读取 auth.json");
+    await expect(readFigmaPatFromAuthFile({ homeDir: root })).rejects.toThrow("无法读取 auth.json");
+  });
+
+  it("uses the user data directory by default", () => {
+    expect(getDefaultAuthFilePath()).toContain(".figma-rest-mcp-server");
   });
 });
 

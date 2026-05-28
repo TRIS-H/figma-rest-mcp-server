@@ -2,7 +2,7 @@ import { mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { FileSnapshotStore } from "../src/snapshotStore.js";
+import { FileSnapshotStore, getDefaultCacheRoot } from "../src/snapshotStore.js";
 
 describe("FileSnapshotStore", () => {
   it("saves and reads cached snapshots", async () => {
@@ -41,5 +41,9 @@ describe("FileSnapshotStore", () => {
     await expect(store.readSnapshot("snapshot-1")).resolves.toMatchObject({
       manifest: { summary: { id: "snapshot-1" } }
     });
+  });
+
+  it("uses the user data cache directory by default", () => {
+    expect(getDefaultCacheRoot()).toContain(".figma-rest-mcp-server");
   });
 });

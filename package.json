@@ -1,17 +1,25 @@
 {
   "name": "figma-rest-mcp-server",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
+  "description": "Local MCP server for reading Figma design data through the Figma REST API.",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
   "bin": {
-    "figma-rest-mcp-server": "./dist/index.js"
+    "figma-rest-mcp": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "dev": "tsx src/index.ts",
-    "figma:pat": "node scripts/set-figma-pat.mjs"
+    "dev": "tsx src/cli.ts serve",
+    "cli": "tsx src/cli.ts",
+    "figma:pat": "tsx src/cli.ts auth",
+    "pack:dry-run": "pnpm pack --dry-run"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

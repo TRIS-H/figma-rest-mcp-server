@@ -1,15 +1,33 @@
 # Figma REST MCP Server
 
-本项目提供一个本地 stdio MCP Server，通过 Figma REST API 读取设计稿数据，并把完整快照缓存到本项目的 `.figma-cache` 中。
+本项目提供一个 stdio MCP Server，通过 Figma REST API 读取设计稿数据，并把完整快照缓存到本机用户目录。
+
+## 安装
+
+公开包安装方式：
+
+```bash
+npm i -g figma-rest-mcp-server
+```
+
+也可以使用 pnpm：
+
+```bash
+pnpm add -g figma-rest-mcp-server
+```
 
 ## 认证
 
-不要使用 `.env` 文件。本项目从项目根目录的 `auth.json` 读取 Figma Personal Access Token，macOS 和 Windows 都可使用。
+不要使用 `.env` 文件。全局安装后，本项目从用户主目录下的 `auth.json` 读取 Figma Personal Access Token：
 
-推荐使用交互式脚本生成或更新 `auth.json`，避免 token 进入 shell history：
+```text
+~/.figma-rest-mcp-server/auth.json
+```
+
+推荐使用交互式命令生成或更新 `auth.json`，避免 token 进入 shell history：
 
 ```bash
-pnpm figma:pat
+figma-rest-mcp auth
 ```
 
 也可以手动创建：
@@ -20,32 +38,60 @@ pnpm figma:pat
 }
 ```
 
-`auth.json` 是本地明文凭据文件，已经加入 `.gitignore`，不要提交到 Git。
-
-## 构建
-
-```bash
-pnpm install
-pnpm build
-```
+`auth.json` 是本机明文凭据文件，不能提交、不能共享。
 
 ## 注册到 Codex
 
 ```bash
-codex mcp add figma_rest -- node <你的 figma-rest-mcp-server 目录>/dist/index.js
+codex mcp add figma_rest -- figma-rest-mcp serve
 ```
 
-默认缓存目录固定为：
+注册后重启 Codex App 或开启新会话。
+
+## 运行路径
+
+查看当前 auth 和缓存路径：
+
+```bash
+figma-rest-mcp paths
+```
+
+默认路径：
 
 ```text
-<你的 figma-rest-mcp-server 目录>/.figma-cache
+~/.figma-rest-mcp-server/auth.json
+~/.figma-rest-mcp-server/.figma-cache
 ```
 
-这样在其他项目里使用 `figma_rest` mcp 时，会访问该路径读取 `figma-cache`。
+这样在其他项目里使用 `figma_rest` MCP 时，不会在那个项目下创建或访问 `.figma-cache`。
 
-## 设计稿
+## 本地开发
 
-示例链接：
+```bash
+pnpm install
+pnpm build
+pnpm cli auth
+pnpm cli paths
+pnpm cli serve
+```
+
+开发期也可以继续使用：
+
+```bash
+pnpm figma:pat
+```
+
+## 发布
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm pack --dry-run
+npm publish
+```
+
+## 设计稿示例
 
 ```text
 https://www.figma.com/design/Lxci9PlOEhEnJ7D0EJLm5e/%E8%B6%A3%E6%B0%AA8?node-id=1974-7822&m=dev
@@ -55,3 +101,11 @@ https://www.figma.com/design/Lxci9PlOEhEnJ7D0EJLm5e/%E8%B6%A3%E6%B0%AA8?node-id=
 
 - file key: `Lxci9PlOEhEnJ7D0EJLm5e`
 - node id: `1974:7822`
+
+## 接入流程
+
+见 `./接入流程.md`。
+
+## 原理介绍
+
+见 `./原理介绍.md`。

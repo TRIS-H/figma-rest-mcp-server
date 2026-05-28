@@ -1,6 +1,5 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import type {
   AssetFormat,
   SaveSnapshotInput,
@@ -10,6 +9,7 @@ import type {
   SnapshotSummary
 } from "./types.js";
 import { buildNodeIndex, getRootName } from "./nodeIndex.js";
+import { getCacheRoot } from "./paths.js";
 
 export class FileSnapshotStore implements SnapshotStore {
   constructor(private readonly rootDir = getDefaultCacheRoot()) {}
@@ -101,7 +101,7 @@ export class FileSnapshotStore implements SnapshotStore {
 }
 
 export function getDefaultCacheRoot(): string {
-  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", ".figma-cache");
+  return getCacheRoot();
 }
 
 function createSnapshotId(fileKey: string): string {
