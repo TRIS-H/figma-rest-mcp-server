@@ -6,6 +6,14 @@
 
 不要使用 `.env` 文件。把 Figma Personal Access Token 写入 macOS Keychain：
 
+推荐使用交互式脚本，避免 token 进入 shell history：
+
+```bash
+pnpm figma:pat
+```
+
+也可以手动写入：
+
 ```bash
 security add-generic-password -a figma-pat -s figma-mcp-server -w "<你的Figma Personal Access Token>" -U
 ```
@@ -25,7 +33,7 @@ pnpm build
 ## 注册到 Codex
 
 ```bash
-codex mcp add figma_rest -- node /Users/huangyansen/Desktop/我的/AI-demo/figma-server/dist/index.js
+codex mcp add figma_rest -- node <你的 figma-rest-mcp-server 目录>/dist/index.js
 ```
 
 默认缓存目录固定为：

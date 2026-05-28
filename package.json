@@ -10,7 +10,8 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "figma:pat": "node scripts/set-figma-pat.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
