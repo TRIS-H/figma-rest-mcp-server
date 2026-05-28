@@ -4,24 +4,23 @@
 
 ## 认证
 
-不要使用 `.env` 文件。把 Figma Personal Access Token 写入 macOS Keychain：
+不要使用 `.env` 文件。本项目从项目根目录的 `auth.json` 读取 Figma Personal Access Token，macOS 和 Windows 都可使用。
 
-推荐使用交互式脚本，避免 token 进入 shell history：
+推荐使用交互式脚本生成或更新 `auth.json`，避免 token 进入 shell history：
 
 ```bash
 pnpm figma:pat
 ```
 
-也可以手动写入：
+也可以手动创建：
 
-```bash
-security add-generic-password -a figma-pat -s figma-mcp-server -w "<你的Figma Personal Access Token>" -U
+```json
+{
+  "figmaPat": "<你的Figma Personal Access Token>"
+}
 ```
 
-读取参数固定为：
-
-- service: `figma-mcp-server`
-- account: `figma-pat`
+`auth.json` 是本地明文凭据文件，已经加入 `.gitignore`，不要提交到 Git。
 
 ## 构建
 
@@ -39,7 +38,7 @@ codex mcp add figma_rest -- node <你的 figma-rest-mcp-server 目录>/dist/inde
 默认缓存目录固定为：
 
 ```text
-{ figma-rest-mcp-server 项目路径}/.figma-cache
+<你的 figma-rest-mcp-server 目录>/.figma-cache
 ```
 
 这样在其他项目里使用 `figma_rest` mcp 时，会访问该路径读取 `figma-cache`。

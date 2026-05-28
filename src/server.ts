@@ -6,7 +6,7 @@ import {
   type Tool
 } from "@modelcontextprotocol/sdk/types.js";
 import { FigmaRestClient } from "./figmaClient.js";
-import { readFigmaPatFromKeychain } from "./keychain.js";
+import { readFigmaPatFromAuthFile } from "./auth.js";
 import { FileSnapshotStore } from "./snapshotStore.js";
 import {
   figmaExportAssets,
@@ -77,7 +77,7 @@ const tools: Tool[] = [
 
 export async function createServer(context?: Partial<ToolContext>): Promise<Server> {
   const toolContext: ToolContext = {
-    client: context?.client ?? new FigmaRestClient(readFigmaPatFromKeychain),
+    client: context?.client ?? new FigmaRestClient(readFigmaPatFromAuthFile),
     store: context?.store ?? new FileSnapshotStore()
   };
 
