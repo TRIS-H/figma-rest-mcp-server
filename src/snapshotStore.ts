@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type {
   AssetFormat,
   SaveSnapshotInput,
@@ -11,7 +12,7 @@ import type {
 import { buildNodeIndex, getRootName } from "./nodeIndex.js";
 
 export class FileSnapshotStore implements SnapshotStore {
-  constructor(private readonly rootDir = path.resolve(process.cwd(), ".figma-cache")) {}
+  constructor(private readonly rootDir = getDefaultCacheRoot()) {}
 
   async saveSnapshot(input: SaveSnapshotInput): Promise<SnapshotManifest> {
     const id = input.id ?? createSnapshotId(input.fileKey);
@@ -97,6 +98,10 @@ export class FileSnapshotStore implements SnapshotStore {
     await writeFile(outputPath, bytes);
     return outputPath;
   }
+}
+
+export function getDefaultCacheRoot(): string {
+  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", ".figma-cache");
 }
 
 function createSnapshotId(fileKey: string): string {
