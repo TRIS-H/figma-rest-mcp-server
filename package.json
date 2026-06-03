@@ -1,9 +1,34 @@
 {
   "name": "figma-rest-mcp-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "description": "Local MCP server for reading Figma design data through the Figma REST API.",
+  "keywords": [
+    "figma",
+    "figma-api",
+    "figma-rest-api",
+    "figma-mcp",
+    "figma-rest-mcp",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "codex",
+    "codex-mcp",
+    "design-to-code",
+    "design-system",
+    "frontend-tools",
+    "figma-export",
+    "figma-json"
+  ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TRIS-H/figma-rest-mcp-server.git"
+  },
+  "homepage": "https://github.com/TRIS-H/figma-rest-mcp-server#readme",
+  "bugs": {
+    "url": "https://github.com/TRIS-H/figma-rest-mcp-server/issues"
+  },
   "files": [
     "dist",
     "README.md",

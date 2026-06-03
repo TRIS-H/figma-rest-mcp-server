@@ -2,6 +2,10 @@
 
 本项目提供一个 stdio MCP Server，通过 Figma REST API 读取设计稿数据，并把完整快照缓存到本机用户目录。
 
+## 关键词
+
+Figma MCP Server、Figma REST API、Figma API、Codex MCP、Model Context Protocol、MCP Server、design to code、Figma to code、设计稿转代码、Figma 设计稿解析、Figma JSON、Figma 快照缓存、本地 MCP Server。
+
 ## 接入流程
 
 1. 创建 Figma Personal Access Token
