@@ -56,8 +56,6 @@ figma-rest-mcp paths
 ~/.figma-rest-mcp-server/.figma-cache
 ```
 
-这样在其他项目里使用 `figma_rest` MCP 时，不会在那个项目下创建或访问 `.figma-cache`。
-
 5. 注册到 Codex
 
 ```bash
